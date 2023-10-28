@@ -1,0 +1,40 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  overflow: hidden;
+  transition: right 0.3s ease-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.close_section {
+  position: absolute;
+  right: 0;
+  top: 15px;
+  z-index: 999;
+
+  button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.open_right {
+  right: 0;
+}
+
+.open_left {
+  left: 0;
+}
+
+.ReactModal__Overlay {
+  background: rgba(0, 0, 0, 0.4) !important;
+  z-index: 9;
+}
+
+@media (min-width: 640px) {
+  .modal {
+    width: 496px;
+  }
+}

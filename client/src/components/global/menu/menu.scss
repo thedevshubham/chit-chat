@@ -1,0 +1,44 @@
+.menu {
+  position: absolute;
+  top: 50px;
+  left: 14px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
+    rgba(0, 0, 0, 0.14) 0px 8px 10px 1px, rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
+  max-height: 200px;
+  overflow-y: auto;
+  transition: transform 0.2s ease-in-out;
+  transform: translateY(-100%);
+  z-index: 999;
+  display: none;
+
+  &.open {
+    transform: translateY(0);
+    display: block;
+  }
+}
+
+.menu-item {
+  position: relative;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+}
+
+button {
+  padding: 10px;
+  border: none;
+  background: #f0f0f0;
+  cursor: pointer;
+
+  &:hover {
+    background: #ddd;
+  }
+}

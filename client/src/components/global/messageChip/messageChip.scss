@@ -1,0 +1,21 @@
+/* Message.scss */
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 8px;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #f7f7f7;
+  max-width: 65%;
+
+  .message_bubble {
+    font-size: 14px; /* Message text size */
+    word-wrap: break-word;
+  }
+
+  .message_time {
+    font-size: 12px; /* Time text size */
+    color: #999; /* Time text color */
+  }
+}

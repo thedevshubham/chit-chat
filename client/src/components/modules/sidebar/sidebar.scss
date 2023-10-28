@@ -1,0 +1,61 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fff;
+}
+
+.contacts_section {
+  padding: 10px;
+  overflow-y: scroll;
+  height: calc(100vh - 222px);
+}
+
+.fixed_top_section {
+  padding: 10px;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin_section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.settings {
+  cursor: pointer;
+}
+
+section form .new_user_section {
+  display: flex;
+}
+
+.new_user_section input.inputfield {
+  flex: 1 1;
+  border-radius: unset;
+  height: 40px;
+}
+
+.new_user_section button.global_button {
+  flex: 0 1;
+  margin-left: -3px;
+  height: 40px;
+  border-radius: unset;
+  border: 1px solid black;
+}
+
+.menu_container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.menu_container:hover {
+  background-color: #e0e0e0;
+}

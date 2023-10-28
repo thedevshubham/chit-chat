@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #ccc;
+}
+
+.drawer_icon {
+  cursor: pointer;
+  display: block;
+}
+
+@media (min-width: 639.98px) {
+  .drawer_icon {
+    display: none;
+  }
+}

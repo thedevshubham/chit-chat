@@ -1,0 +1,14 @@
+.chat_history {
+  position: relative;
+  overflow-y: scroll;
+  height: calc(100% - 152px);
+}
+
+.message_chip_container {
+  display: flex;
+  justify-content: end;
+
+  &.user_chip {
+    justify-content: start;
+  }
+}

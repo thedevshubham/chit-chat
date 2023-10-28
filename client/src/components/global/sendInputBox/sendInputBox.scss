@@ -1,0 +1,38 @@
+.sendbox_container {
+  width: 100%;
+}
+
+.send_input {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #f4f4f4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .text_container {
+    height: auto;
+    display: flex;
+    flex: 1 1;
+  }
+
+  textarea {
+    flex: 1 1;
+    border: none;
+    outline: none;
+    resize: none;
+    min-height: 46px;
+  }
+
+  button {
+    background-color: transparent;
+    color: #007bff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 30px;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+}
