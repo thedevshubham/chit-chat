@@ -1,10 +1,13 @@
 const express = require("express");
 const app = express();
+const serverless = require("serverless-http");
 const http = require("http");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
-const { Server } = require("socket.io"); // Add this
+const { Server } = require("socket.io");
+
+const port = process.env.PORT || 4000;
 
 const secretKey = "njfui-38729-eiw34-024hfe";
 
@@ -236,9 +239,11 @@ app.post("/api/add-user", (req, res) => {
   });
 });
 
-server.listen(4000, () => "Server is running on port 4000");
+server.listen(port, () => `Server is running on port ${port}`);
 
 // methods
 const generateUniqueId = () => {
   return "kweur" + Math.floor(Math.random() * 10000);
 };
+
+module.exports.handler = serverless(app);
