@@ -36,17 +36,21 @@ Welcome to the documentation of our Real-Time Chat Application. This application
    cd real-time-chat
    ```
 2. Install server dependencies
-   cd server
+   ```cd server
    npm install
+   ```
 3. Install client dependencies
-   cd client
+   ```cd client
    npm install
+   ```
 4. Run the server
-   cd server
+   ```cd server
    npm start
+   ```
 5. Run the client
-   cd client
+   ```cd client
    npm start
+   ```
 
 ## Usage
 
