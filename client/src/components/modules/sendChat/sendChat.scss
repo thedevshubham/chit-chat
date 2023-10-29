@@ -1,6 +1,12 @@
 .send_chat_cotainer {
   padding: 0 10px;
-  position: absolute;
-  bottom: 10px;
+  position: fixed;
+  bottom: 2%;
   width: calc(100% - 20px);
+}
+
+@media (min-width: 640px) {
+  .send_chat_cotainer {
+    width: calc(100% - 270px);
+  }
 }

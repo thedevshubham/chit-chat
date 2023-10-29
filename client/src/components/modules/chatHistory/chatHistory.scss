@@ -1,7 +1,10 @@
 .chat_history {
   position: relative;
   overflow-y: scroll;
-  height: calc(100% - 152px);
+  height: calc(100% - 185px);
+  position: absolute;
+  top: 72px;
+  width: 100%;
 }
 
 .message_chip_container {

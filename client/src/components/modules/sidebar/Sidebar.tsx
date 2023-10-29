@@ -63,7 +63,7 @@ const Sidebar: React.FC<SidebarProps> = ({ hanldeModalClose }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    scrollToContactsSection();
+    // scrollToContactsSection();
     observeOnlineUsers();
   }, []);
 
@@ -71,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ hanldeModalClose }) => {
     if (user) {
       getUsers();
     }
-  }, []);
+  }, [user]);
 
   const scrollToContactsSection = () => {
     if (contactsSectionRef.current) {

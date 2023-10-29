@@ -23,7 +23,7 @@ const ChatHistory = () => {
 
   const scrollToLatestMessage = () => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollIntoView({ behavior: "smooth" });
+      // chatContainerRef.current.scrollIntoView({ behavior: "smooth" });
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
