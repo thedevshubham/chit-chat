@@ -1,14 +1,10 @@
 const express = require("express");
 const app = express();
-const serverless = require("serverless-http");
 const http = require("http");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
-const router = express.Router();
-const { Server } = require("socket.io");
-
-const port = process.env.PORT || 4001;
+const { Server } = require("socket.io"); // Add this
 
 const secretKey = "njfui-38729-eiw34-024hfe";
 
@@ -18,15 +14,10 @@ const messageHistory = {};
 
 app.use(cors());
 app.use(bodyParser.json());
-console.log("HERERERRE");
+
 const server = http.createServer(app);
 
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-});
+const io = new Server(server);
 
 const socketIdToUserId = new Map();
 const onlineUsers = new Set();
@@ -88,7 +79,7 @@ io.on("connection", (socket) => {
 });
 
 //signup
-router.post("/signup", (req, res) => {
+app.post("/api/signup", (req, res) => {
   const { firstName, lastName, gender, email, password } = req.body;
 
   if (!firstName || !lastName || !gender || !email || !password) {
@@ -126,7 +117,7 @@ router.post("/signup", (req, res) => {
 });
 
 //login
-router.post("/login", (req, res) => {
+app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -161,7 +152,7 @@ router.post("/login", (req, res) => {
 });
 
 // Protect API routes with authentication middleware
-router.use((req, res, next) => {
+app.use((req, res, next) => {
   const token = req.header("Authorization");
 
   if (!token) {
@@ -178,7 +169,7 @@ router.use((req, res, next) => {
 });
 
 //get users
-router.get("/users", (req, res) => {
+app.get("/api/users", (req, res) => {
   // Filter out the currently logged-in user from the users array
   const loggedInUser = users.find((user) => user.email === req.user.email);
 
@@ -198,7 +189,7 @@ router.get("/users", (req, res) => {
 });
 
 //login
-router.post("/add-user", (req, res) => {
+app.post("/api/add-user", (req, res) => {
   const { email } = req.body;
 
   if (!email) {
@@ -240,12 +231,9 @@ router.post("/add-user", (req, res) => {
   });
 });
 
-server.listen(port, () => `Server is running on port ${port}`);
+server.listen(4000, () => "Server is running on port 4000");
 
 // methods
 const generateUniqueId = () => {
   return "kweur" + Math.floor(Math.random() * 10000);
 };
-
-app.use("/.netlify/functions/api", router);
-module.exports.handler = serverless(app);

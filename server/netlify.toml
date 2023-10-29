@@ -1,2 +1,0 @@
-[build]
-  functions = "functions"  # The directory containing serverless functions
