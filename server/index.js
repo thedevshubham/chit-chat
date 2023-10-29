@@ -20,11 +20,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:3000",
-      "https://653e5745e3db8f72e315f221--capable-phoenix-ce6d96.netlify.app/",
-    ],
-    methods: ["GET", "POST"],
+    origin: "*",
   },
 });
 
