@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { ReactComponent as DrawerIcon } from "../../../assets/images/app-menu-svgrepo-com.svg";
 import store from "../../../redux/store";
@@ -43,6 +43,10 @@ const Header = () => {
     });
   };
 
+  const renderChildren = useMemo(() => {
+    return <Sidebar hanldeModalClose={handleClose} />;
+  }, []);
+
   return (
     <div className="header">
       <div className="drawer_icon" onClick={handleAppMenuClick}>
@@ -62,7 +66,7 @@ const Header = () => {
           isModalOpen
           onClose={handleClose}
           isOpenRight={false}
-          children={<Sidebar />}
+          children={renderChildren}
         />
       )}
     </div>

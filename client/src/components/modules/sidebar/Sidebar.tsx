@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { ReactComponent as Dots } from "../../../assets/images/dots-vertical-svgrepo-com.svg";
 import {
   fetchUsersFailure,
   fetchUsersRequest,
@@ -9,16 +11,14 @@ import {
 } from "../../../redux/actionCreators/userActionCreators";
 import store from "../../../redux/store";
 import usersService from "../../../services/usersService";
+import socket from "../../../socket.io";
 import Button from "../../global/button";
 import ContactChip from "../../global/contactChip";
 import Input from "../../global/input";
-import Search from "../../global/search";
-import "./sidebar.scss";
-import { ReactComponent as Dots } from "../../../assets/images/dots-vertical-svgrepo-com.svg";
-import { toast } from "react-toastify";
 import Menu from "../../global/menu";
+import Search from "../../global/search";
 import { logout } from "../../utils";
-import socket from "../../../socket.io";
+import "./sidebar.scss";
 
 interface User {
   id: string;
@@ -27,6 +27,10 @@ interface User {
   gender: string;
   email: string;
   password: string;
+}
+
+interface SidebarProps {
+  hanldeModalClose?: () => void;
 }
 
 interface MenuItem {
@@ -38,7 +42,7 @@ type RootState = ReturnType<typeof store.getState>;
 
 const menuList = [{ id: "logout", name: "Logout" }];
 
-const Sidebar = () => {
+const Sidebar: React.FC<SidebarProps> = ({ hanldeModalClose }) => {
   const dispatch = useDispatch();
   const authState = useSelector((state: RootState) => state.auth);
   const userState = useSelector((state: RootState) => state.users);
@@ -67,7 +71,7 @@ const Sidebar = () => {
     if (user) {
       getUsers();
     }
-  }, [user]);
+  }, []);
 
   const scrollToContactsSection = () => {
     if (contactsSectionRef.current) {
@@ -81,7 +85,7 @@ const Sidebar = () => {
     });
   };
 
-  const getUsers = async () => {
+  const getUsers = useCallback(async () => {
     dispatch(fetchUsersRequest());
 
     try {
@@ -93,7 +97,7 @@ const Sidebar = () => {
       console.error(error);
       dispatch(fetchUsersFailure("Fetch failed."));
     }
-  };
+  }, [dispatch, setContacts]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchVal = e.target.value;
@@ -107,6 +111,7 @@ const Sidebar = () => {
 
   const handleContactClick = (userObj: any) => {
     dispatch(setCurrentChatUser(userObj));
+    hanldeModalClose && hanldeModalClose();
   };
 
   const handleMenuItemClick = (item: MenuItem) => {
@@ -211,4 +216,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default React.memo(Sidebar);

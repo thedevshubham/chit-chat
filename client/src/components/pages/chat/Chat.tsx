@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setAllMessagesInContext,
@@ -101,4 +101,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default React.memo(Chat);
