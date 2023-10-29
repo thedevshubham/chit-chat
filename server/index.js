@@ -5,6 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const { Server } = require("socket.io"); // Add this
+const port = process.env.PORT || 4001;
 
 const secretKey = "njfui-38729-eiw34-024hfe";
 
@@ -17,7 +18,15 @@ app.use(bodyParser.json());
 
 const server = http.createServer(app);
 
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: [
+      "http://localhost:3000",
+      "https://653e5745e3db8f72e315f221--capable-phoenix-ce6d96.netlify.app/",
+    ],
+    methods: ["GET", "POST"],
+  },
+});
 
 const socketIdToUserId = new Map();
 const onlineUsers = new Set();
@@ -231,7 +240,7 @@ app.post("/api/add-user", (req, res) => {
   });
 });
 
-server.listen(4000, () => "Server is running on port 4000");
+server.listen(port, () => `Server is running on port ${port}`);
 
 // methods
 const generateUniqueId = () => {

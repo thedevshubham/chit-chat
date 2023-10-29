@@ -28,6 +28,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route element={<LoginLayout />}>
+              <Route path="/" element={<Login />} />
               <Route path="/signup" element={<SignupWrapper />} />
               <Route path="/login" element={<Login />} />
             </Route>
