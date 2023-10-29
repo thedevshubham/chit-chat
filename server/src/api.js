@@ -1,10 +1,14 @@
 const express = require("express");
 const app = express();
+const serverless = require("serverless-http");
 const http = require("http");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
-const { Server } = require("socket.io"); // Add this
+const router = express.Router();
+const { Server } = require("socket.io");
+
+const port = process.env.PORT || 4001;
 
 const secretKey = "njfui-38729-eiw34-024hfe";
 
@@ -14,7 +18,7 @@ const messageHistory = {};
 
 app.use(cors());
 app.use(bodyParser.json());
-
+console.log("HERERERRE");
 const server = http.createServer(app);
 
 const io = new Server(server, {
@@ -84,7 +88,7 @@ io.on("connection", (socket) => {
 });
 
 //signup
-app.post("/api/signup", (req, res) => {
+router.post("/signup", (req, res) => {
   const { firstName, lastName, gender, email, password } = req.body;
 
   if (!firstName || !lastName || !gender || !email || !password) {
@@ -122,7 +126,7 @@ app.post("/api/signup", (req, res) => {
 });
 
 //login
-app.post("/api/login", (req, res) => {
+router.post("/login", (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -153,11 +157,11 @@ app.post("/api/login", (req, res) => {
     });
   }
 
-  res.status(401).json({ message: "Invalid credentials" });
+  res.status(404).json({ message: "Invalid credentials" });
 });
 
 // Protect API routes with authentication middleware
-app.use((req, res, next) => {
+router.use((req, res, next) => {
   const token = req.header("Authorization");
 
   if (!token) {
@@ -174,7 +178,7 @@ app.use((req, res, next) => {
 });
 
 //get users
-app.get("/api/users", (req, res) => {
+router.get("/users", (req, res) => {
   // Filter out the currently logged-in user from the users array
   const loggedInUser = users.find((user) => user.email === req.user.email);
 
@@ -194,7 +198,7 @@ app.get("/api/users", (req, res) => {
 });
 
 //login
-app.post("/api/add-user", (req, res) => {
+router.post("/add-user", (req, res) => {
   const { email } = req.body;
 
   if (!email) {
@@ -236,9 +240,12 @@ app.post("/api/add-user", (req, res) => {
   });
 });
 
-server.listen(4000, () => "Server is running on port 4000");
+server.listen(port, () => `Server is running on port ${port}`);
 
 // methods
 const generateUniqueId = () => {
   return "kweur" + Math.floor(Math.random() * 10000);
 };
+
+app.use("/.netlify/functions/api", router);
+module.exports.handler = serverless(app);
