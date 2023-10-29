@@ -1,6 +1,7 @@
 import io from "socket.io-client";
+import { baseURL } from "./components/utils";
 
-const socket = io("http://localhost:4000"); // Replace with your server URL
+const socket = io(baseURL); // Replace with your server URL
 
 const socketReadyPromise = new Promise((resolve) => {
   socket.on("connect", () => {

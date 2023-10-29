@@ -1,8 +1,9 @@
+import { baseURL } from "./../components/utils";
 import axios, { AxiosInstance } from "axios";
 import { getTokenFromCookie, logout } from "../components/utils";
 
 const apiConfig: any = {
-  baseURL: "http://localhost:4000",
+  baseURL,
 };
 
 const api: AxiosInstance = axios.create(apiConfig);

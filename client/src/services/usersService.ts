@@ -1,9 +1,10 @@
+import { API_URL } from "../components/apiUrls";
 import api from "./axiosInstance";
 
 const usersService = {
   getUsers: async () => {
     try {
-      const response = await api.get("/api/users");
+      const response = await api.get(API_URL.LIST_CHAT_USERS);
       return response;
     } catch (error) {
       throw error;
@@ -11,7 +12,7 @@ const usersService = {
   },
   addUser: async (userEmail: any) => {
     try {
-      const response = await api.post("/api/add-user", userEmail);
+      const response = await api.post(API_URL.ADD_USER_TO_CHAT, userEmail);
       return response;
     } catch (error) {
       throw error;

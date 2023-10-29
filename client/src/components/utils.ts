@@ -1,5 +1,7 @@
 import { socketReadyPromise } from "../socket.io";
 
+export const baseURL = process.env.REACT_APP_CHIT_CHAT_SERVER_URL;
+
 export const initSocketConnection = async (id: any) => {
   try {
     const socket = await socketReadyPromise;
