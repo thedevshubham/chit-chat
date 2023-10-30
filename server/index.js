@@ -10,8 +10,9 @@ const port = process.env.PORT || 4001;
 const secretKey = "njfui-38729-eiw34-024hfe";
 
 const users = [];
-
 const messageHistory = {};
+const socketIdToUserId = new Map();
+const onlineUsers = new Set();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,9 +24,6 @@ const io = new Server(server, {
     origin: "*",
   },
 });
-
-const socketIdToUserId = new Map();
-const onlineUsers = new Set();
 
 // Listen for when the client connects via socket.io-client
 io.on("connection", (socket) => {
@@ -58,18 +56,15 @@ io.on("connection", (socket) => {
     socket.to(receiverId).emit("receive_msg", payload);
 
     // store message history
-    if (messageHistory[senderId] && messageHistory[senderId][receiverId]) {
-      messageHistory[senderId][receiverId].push(payload);
-      messageHistory[receiverId][senderId].push(payload);
-    } else {
-      messageHistory[senderId] = {};
-      messageHistory[senderId][receiverId] = {};
-      messageHistory[senderId][receiverId].push(payload);
-    }
+    messageHistory[senderId][receiverId].push(payload);
+    messageHistory[receiverId][senderId].push(payload);
+
+    console.log(messageHistory, "SEND messages", senderId, receiverId);
   });
 
   socket.on("all_messages", ({ senderId, receiverId }) => {
     const messages = messageHistory[senderId] || [];
+    console.log(messageHistory, "ALL messages", messages);
     socket.emit("all_messages", { senderId, messages });
   });
 
@@ -213,26 +208,58 @@ app.post("/api/add-user", (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
 
-  const senderId = loggedInUser.id;
-  const receiverId = user.id;
-  // Store message history
-  if (!messageHistory[senderId]) {
-    messageHistory[senderId] = {};
+  if (user.email === loggedInUser.email) {
+    return res.status(400).json({ message: "Cannot use admin as a user" });
   }
 
-  if (!messageHistory[senderId][receiverId]) {
+  const newUser = {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    gender: user.gender,
+    email: user.email,
+    id: user.id,
+  };
+
+  const userForReceiver = {
+    firstName: loggedInUser.firstName,
+    lastName: loggedInUser.lastName,
+    gender: loggedInUser.gender,
+    email: loggedInUser.email,
+    id: loggedInUser.id,
+  };
+
+  const senderId = loggedInUser.id;
+  const receiverId = user.id;
+
+  if (messageHistory[senderId]?.[receiverId]) {
+    return res.status(400).json({ message: "Cannot use admin as a user" });
+  }
+
+  // Store message history
+  if (messageHistory[senderId]) {
+    messageHistory[senderId][receiverId] = [];
+  } else {
+    messageHistory[senderId] = {};
     messageHistory[senderId][receiverId] = [];
   }
 
+  if (messageHistory[receiverId]) {
+    messageHistory[receiverId][senderId] = [];
+  } else {
+    messageHistory[receiverId] = {};
+    messageHistory[receiverId][senderId] = [];
+  }
+
+  // Emit a socket event here
+  io.to(receiverId).emit("user-added", {
+    senderId,
+    receiverId,
+    user: userForReceiver,
+  });
+
   return res.status(200).json({
     message: "User added in successfully",
-    user: {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      gender: user.gender,
-      email: user.email,
-      id: user.id,
-    },
+    user: newUser,
   });
 });
 

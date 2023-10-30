@@ -65,6 +65,12 @@ const Sidebar: React.FC<SidebarProps> = ({ hanldeModalClose }) => {
   useEffect(() => {
     // scrollToContactsSection();
     observeOnlineUsers();
+    observeNewUsers();
+
+    return () => {
+      socket.off("onlineUsers");
+      socket.off("user-added");
+    };
   }, []);
 
   useEffect(() => {
@@ -72,6 +78,13 @@ const Sidebar: React.FC<SidebarProps> = ({ hanldeModalClose }) => {
       getUsers();
     }
   }, [user]);
+
+  const observeNewUsers = () => {
+    socket.on("user-added", ({ senderId, receiverId, user }) => {
+      dispatch(setChatUsers([...users, user]));
+      setContacts([...users, user]);
+    });
+  };
 
   const scrollToContactsSection = () => {
     if (contactsSectionRef.current) {
@@ -169,7 +182,6 @@ const Sidebar: React.FC<SidebarProps> = ({ hanldeModalClose }) => {
             <ContactChip
               customClass={"without-card"}
               gender={adminGender}
-              // isOnline={true}
               name={adminFirstName}
             />
           </div>

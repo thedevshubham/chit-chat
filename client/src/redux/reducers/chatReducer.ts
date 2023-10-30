@@ -25,7 +25,6 @@ const chatReducer = (
       };
     case ActionTypes.SET_PRIVATE_CHAT_SUCCESS:
       const { chatRecepientId, receipientMessage } = action;
-      console.log({ chatRecepientId, receipientMessage });
 
       return {
         ...state,
