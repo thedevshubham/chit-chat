@@ -161,7 +161,7 @@ const Sidebar: React.FC<SidebarProps> = ({ hanldeModalClose }) => {
         getUsers();
       }
     } catch (error) {
-      toast.error(`${error}`);
+      toast.error(error.response.data);
     }
   };
 

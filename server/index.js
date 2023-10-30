@@ -83,12 +83,12 @@ app.post("/api/signup", (req, res) => {
   const { firstName, lastName, gender, email, password } = req.body;
 
   if (!firstName || !lastName || !gender || !email || !password) {
-    return res.status(400).json({ message: "Invalid request" });
+    return res.status(400).send("Invalid request");
   }
 
   // Check if the user already exists
   if (users.some((user) => user.email === email)) {
-    return res.status(409).json({ message: "User already exists" });
+    return res.status(409).send("User already exists");
   }
 
   // Create a new user
@@ -121,7 +121,7 @@ app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ message: "Invalid request" });
+    return res.status(400).send("Invalid credentials");
   }
 
   const user = users.find((u) => {
@@ -148,7 +148,7 @@ app.post("/api/login", (req, res) => {
     });
   }
 
-  res.status(404).json({ message: "Invalid credentials" });
+  res.status(404).send("User not found");
 });
 
 // Protect API routes with authentication middleware
@@ -156,7 +156,7 @@ app.use((req, res, next) => {
   const token = req.header("Authorization");
 
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).send("Unauthorized");
   }
 
   try {
@@ -164,7 +164,7 @@ app.use((req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({ message: "Invalid token" });
+    res.status(401).send("Invalid token");
   }
 });
 
@@ -193,7 +193,7 @@ app.post("/api/add-user", (req, res) => {
   const { email } = req.body;
 
   if (!email) {
-    return res.status(400).json({ message: "Invalid request" });
+    return res.status(400).send("Invalid request");
   }
 
   const user = users.find((u) => u.email === email);
@@ -201,15 +201,15 @@ app.post("/api/add-user", (req, res) => {
   const loggedInUser = users.find((user) => user.email === req.user.email);
 
   if (!loggedInUser) {
-    return res.status(404).json({ message: "Logged in user not found" });
+    return res.status(404).send("Logged in user not found");
   }
 
-  if (!user || !loggedInUser) {
-    return res.status(404).json({ message: "User not found" });
+  if (!user) {
+    return res.status(404).send("User not found");
   }
 
-  if (user.email === loggedInUser.email) {
-    return res.status(400).json({ message: "Cannot use admin as a user" });
+  if (email === loggedInUser.email) {
+    return res.status(400).send("Cannot use admin as a user");
   }
 
   const newUser = {
@@ -232,7 +232,7 @@ app.post("/api/add-user", (req, res) => {
   const receiverId = user.id;
 
   if (messageHistory[senderId]?.[receiverId]) {
-    return res.status(400).json({ message: "Cannot use admin as a user" });
+    return res.status(400).send("User already exist in your chat");
   }
 
   // Store message history

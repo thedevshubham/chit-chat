@@ -51,8 +51,8 @@ const Login = () => {
       dispatch(loginSuccess(user));
       navigate("/chat");
     } catch (error) {
-      dispatch(loginFailure("Error in log in."));
-      toast.error("Error in log in.");
+      dispatch(loginFailure(error.response.data));
+      toast.error(error.response.data);
     }
   };
 

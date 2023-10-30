@@ -29,6 +29,8 @@ api.interceptors.response.use(
   (error) => {
     if (error?.response?.status === 401) {
       logout();
+    } else {
+      return Promise.reject(error);
     }
   }
 );

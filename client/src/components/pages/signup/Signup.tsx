@@ -80,8 +80,8 @@ const Signup: React.FC<SignupProps> = ({ onSuccessfullSignup }) => {
       dispatch(signupSuccess(user));
       onSuccessfullSignup();
     } catch (error) {
-      dispatch(signupFailure("Error signing up."));
-      toast.error("Error signing up.");
+      dispatch(signupFailure(error.response.data));
+      toast.error(error.response.data);
     }
   };
 
