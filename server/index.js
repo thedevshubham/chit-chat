@@ -180,11 +180,10 @@ app.get("/api/users", (req, res) => {
   } else {
     let otherUsers = users.filter((user) => senders[user.id]);
 
-    for (let idx = 0; idx < otherUsers.length; idx++) {
-      otherUsers[idx]["password"] = undefined;
-    }
+    // Create a new array of user objects without the "password" property
+    const sanitizedOtherUsers = otherUsers.map(({ password, ...user }) => user);
 
-    res.json({ users: otherUsers });
+    res.json({ users: sanitizedOtherUsers });
   }
 });
 
