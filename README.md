@@ -33,7 +33,7 @@ Welcome to the documentation of our Real-Time Chat Application. This application
 1. Clone the repository:
    ```bash
    git clone https://github.com/thedevshubham/chit-chat.git
-   cd real-time-chat
+   cd chit-chat
    ```
 2. Install server dependencies
    ```cd server
