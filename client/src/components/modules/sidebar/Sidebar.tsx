@@ -71,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ hanldeModalClose }) => {
       socket.off("onlineUsers");
       socket.off("user-added");
     };
-  }, []);
+  }, [users]);
 
   useEffect(() => {
     if (user) {

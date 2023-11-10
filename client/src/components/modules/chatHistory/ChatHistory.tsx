@@ -19,11 +19,10 @@ const ChatHistory = () => {
 
   useEffect(() => {
     scrollToLatestMessage();
-  }, [chatHistory]);
+  }, [chatHistory, currentChatUser]);
 
   const scrollToLatestMessage = () => {
     if (chatContainerRef.current) {
-      // chatContainerRef.current.scrollIntoView({ behavior: "smooth" });
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }

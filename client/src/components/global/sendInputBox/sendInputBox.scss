@@ -9,30 +9,45 @@
   background-color: #f4f4f4;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-  .text_container {
-    height: auto;
-    display: flex;
-    flex: 1 1;
-  }
-
-  textarea {
-    flex: 1 1;
-    border: none;
-    outline: none;
-    resize: none;
-    min-height: 46px;
-  }
-
-  button {
-    background-color: transparent;
-    color: #007bff;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 30px;
-    margin-left: 8px;
+  form {
+    width: 100%;
     display: flex;
     align-items: center;
-    padding: 10px;
+
+    .text_container {
+      height: auto;
+      display: flex;
+      flex: 1 1;
+
+      textarea {
+        flex: 1 1;
+        border: none;
+        outline: none;
+        resize: none;
+        min-height: 46px;
+      }
+    }
+
+    button {
+      background-color: transparent;
+      color: #007bff;
+      border: none;
+      padding: 10px;
+      margin-left: 8px;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+
+      &.disabled {
+        pointer-events: none;
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+    }
+
+    button:hover {
+      background-color: #c1cedb;
+      transform: scale(1.1);
+    }
   }
 }

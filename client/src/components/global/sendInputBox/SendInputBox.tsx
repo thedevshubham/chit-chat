@@ -54,27 +54,44 @@ const SendInputBox: React.FC<SendInputProps> = ({ onSendMessage }) => {
     }, 1000);
   };
 
-  const handleSendClick = () => {
+  const handleSendClick = (
+    e: React.FormEvent<HTMLFormElement> | React.KeyboardEvent
+  ) => {
+    e.preventDefault();
     if (message.trim() !== "") {
       onSendMessage(message);
       setMessage("");
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendClick(e);
+    }
+  };
+
   return (
     <div className="sendbox_container">
       <div className="send_input">
-        <div className="text_container">
-          <textarea
-            placeholder="Type a message..."
-            value={message}
-            onChange={handleInputChange}
-            rows={1}
-          />
-        </div>
-        <button onClick={handleSendClick} disabled={message.trim() === ""}>
-          <SendIcon />
-        </button>
+        <form onSubmit={handleSendClick}>
+          <div className="text_container">
+            <textarea
+              placeholder="Type a message..."
+              value={message}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              rows={1}
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={message.trim() === ""}
+            className={`${message.trim() === "" && "disabled"}`}
+          >
+            <SendIcon />
+          </button>
+        </form>
       </div>
     </div>
   );
